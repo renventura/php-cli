@@ -1,0 +1,7 @@
+# Configuration for PHPStan
+# https://phpstan.org/config-reference
+
+parameters:
+	level: 6
+	paths:
+		- src
