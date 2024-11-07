@@ -59,7 +59,8 @@ class Main extends Commands\Command
                 'name' => self::NAMESPACE,
                 'description' => 'My custom CLI commands.',
                 'synopsis' => '<command> [--help]',
-                'subcommands' => $commands
+                'subcommands' => $commands,
+                'extra' => 'Run "' . self::NAMESPACE . ' <command> --help" to get more information on a specific command.'
             ]
         ];
     }
@@ -79,8 +80,6 @@ class Main extends Commands\Command
         // Help on main command
         if ( empty( $calledCommand ) && ! empty( $args['help'] ) ) {
             $this->help();
-            self::printLine("Run '" . self::NAMESPACE . " <command> --help' to get more information on a specific command.");
-            self::newLine();
             return;
         }
 

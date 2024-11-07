@@ -23,7 +23,22 @@ abstract class Command implements CommandInterface
     public function help()
     {
         $sections = $this->getHelp();
+
+        // Format the sections.
+        ob_start();
         array_map([ $this, 'formatHelpSection' ], $this->getHelp());
+        $stdout = ob_get_clean();
+
+        // Display the output via the `less` command.
+        $fd = fopen('php://temp', 'r+b');
+        fwrite($fd, $stdout);
+        rewind($fd);
+        $descriptorspec = [
+            0 => $fd,
+            1 => STDOUT,
+            2 => STDERR,
+        ];
+        proc_close(proc_open("echo '$stdout' | less -R", $descriptorspec, $pipes));
     }
 
     /**
@@ -56,6 +71,10 @@ abstract class Command implements CommandInterface
         }
 
         self::newLine();
+
+        if (! empty($section['extra'])) {
+            self::printLine($section['extra']);
+        }
     }
 
     /**
