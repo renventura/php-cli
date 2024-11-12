@@ -78,7 +78,7 @@ class Main extends Commands\Command
         $calledCommand = $args['positional'][0] ?? null;
 
         // Help on main command
-        if ( empty( $calledCommand ) && ! empty( $args['help'] ) ) {
+        if ( empty( $calledCommand ) || ! empty( $args['help'] ) ) {
             $this->help();
             return;
         }
